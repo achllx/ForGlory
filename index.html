@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/regisLogin.css">
+    <link rel="stylesheet" href="css/popUp.css">
+    <title>Welcome to: FORGLORY </title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="title">FORGLORY</div>
+
+        <!-- Login Section -->
+        <div id="loginbar">
+            <div id="button1" style="margin-left: 119px; font-size: 30px" onclick="login()">
+                Login
+            </div>
+            <div id="button1" style="margin-left: 5px; margin-right: 80px; color: rgb(93, 93, 93)" onclick="signup()">
+                Sign UP
+            </div>
+            <div style="padding-left: 100px; font-family: lunchds">
+                Username :
+                <input id="UNlogin" type="text" autocomplete="off" style="
+                      font-family: lunchds;
+                      margin-left: 15px;
+                      width: 250px;
+                      height: 25px;
+                    " />
+            </div>
+            <div style="padding-left: 100px; font-family: lunchds">
+                Password :
+                <input type="password" id="PWlogin" autocomplete="off"
+                    style="margin-left: 15px; width: 250px; height: 25px" />
+            </div>
+
+            <div id="button3" style="margin-left: 240px; width: 150px" onclick="forget_password()">
+                Forgot Password
+            </div>
+            <div id="button3" style="margin-left: 47px" onclick="loginbutton()">
+                Login
+            </div>
+        </div>
+
+        <!-- Regis Section -->
+        <div id="signupbar">
+            <div id="button1" style="margin-left: 119px; color: rgb(93, 93, 93)" onclick="login()">
+                Login
+            </div>
+            <div id="button1" style="margin-left: 5px; margin-right: 80px; font-size: 30px" onclick="signup()">
+                Sign UP
+            </div>
+
+            <div style="padding-left: 100px; font-family: lunchds">
+                Email
+                <p style="display: inline; margin-left: 33px">:</p>
+                <input id="Email" type="email" autocomplete="off" style="
+                      font-family: lunchds;
+                      margin-left: 16px;
+                      width: 249px;
+                      height: 25px;
+                    " />
+            </div>
+            <div style="padding-left: 100px; font-family: lunchds">
+                Username :
+                <input id="UNsignup" type="text" autocomplete="off" style="
+                      font-family: lunchds;
+                      margin-left: 15px;
+                      width: 250px;
+                      height: 25px;
+                    " />
+            </div>
+            <div style="padding-left: 100px; font-family: lunchds">
+                Password :
+                <input type="password" id="PWsignup" autocomplete="off"
+                    style="margin-left: 15px; width: 250px; height: 25px" />
+            </div>
+
+            <!-- <div id="button4" style="margin-left: 240px; width: 100px;" onclick="">Upload Profile</div> -->
+            <div id="button4" style="margin-left: 425px" onclick="createbutton()">
+                Create
+            </div>
+        </div>
+    </div>
+
+    <!-- message to send response -->
+    <div id="message"></div>
+    <div id="verif" class="modal">
+        <div class="modal-content">
+            <div style="text-align: center">Forgot Password</div>
+            <br />
+            <div>Enter your email:</div>
+            <input type="email" id="Email1" autocomplete="off" style="width: 200px" />
+            <br />
+            <div onclick="getpass()" style="
+                margin: 5px 0 5px 0;
+                width: 50px;
+                height: 25px;
+                text-align: center;
+                background-color: white;
+                 color: rgb(113, 8, 26);
+                border: solid 1px #8a91c0;
+                cursor: pointer;
+              ">
+                Get
+            </div>
+            this your password:
+            <div id="result" style="
+                color: black;
+                border: 1px solid white;
+                height: 20px;
+                background-color: white;
+              "></div>
+            <div id="back" onclick="back()" style="
+                margin-top: 5px;
+                width: 50px;
+                text-align: center;
+                background-color: white;
+                 color: rgb(113, 8, 26);
+                border: solid 1px #8a91c0;
+                cursor: pointer;
+              ">
+                Back
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Style Function
+            function login() {
+                var a = document.getElementById("loginbar");
+                var b = document.getElementById("signupbar");
+
+                document.getElementById("message").innerHTML = "";
+                document.getElementById("UNlogin").value = "";
+                document.getElementById("PWlogin").value = "";
+                a.style.display = "block";
+                b.style.display = "none";
+            }
+
+            function signup() {
+                var a = document.getElementById("loginbar");
+                var b = document.getElementById("signupbar");
+
+                document.getElementById("message").innerHTML = "";
+                document.getElementById("Email").value = "";
+                document.getElementById("UNsignup").value = "";
+                document.getElementById("PWsignup").value = "";
+                a.style.display = "none";
+                b.style.display = "block";
+            }
+            function forget_password() {
+                var x = document.getElementById("verif");
+                x.style.display = "block";
+            }
+            function back() {
+                var x = document.getElementById("verif");
+                x.style.display = "none";
+                document.getElementById("Email1").value = "";
+                document.getElementById("result").innerHTML = "";
+            }
+
+
+            function loginbutton() {
+                var x = new XMLHttpRequest();
+                var a = document.getElementById("message");
+                x.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == 1) {
+                            window.open("php/charselection.php", "_self");
+                        } else {
+                            a.innerHTML = this.responseText;
+                        }
+                    }
+                };
+                x.open("GET", "php/login.php?un=" + UNlogin.value + "&pw=" + PWlogin.value, true);
+                x.send();
+            }
+
+            function createbutton() {
+                // var email = document.getElementById("Email").value;
+                // var un = document.getElementById("UNsignup").value;
+                // var pw = document.getElementById("PWsignup").value;
+
+                var x = new XMLHttpRequest();
+                var a = document.getElementById("message");
+                x.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == 1) {
+                            var i = document.getElementById("loginbar");
+                            var j = document.getElementById("signupbar");
+
+                            i.style.display = "block";
+                            j.style.display = "none";
+                        }
+                        a.innerHTML = this.responseText;
+                    }
+                };
+                x.open(
+                    "GET",
+                    "php/regis.php?un=" +
+                    UNsignup.value +
+                    "&pw=" +
+                    PWsignup.value +
+                    "&email=" +
+                    Email.value,
+                    true
+                );
+                x.send();
+            }
+
+            function getpass() {
+                var x = new XMLHttpRequest();
+                var a = document.getElementById("result");
+                x.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        a.innerHTML = this.responseText;
+                    }
+                };
+                x.open("GET", "php/forget.php?email=" + Email1.value, true);
+                x.send();
+            }
+
+    </script>
+
+</body>
+
+</html>
